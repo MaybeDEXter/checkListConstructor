@@ -117,7 +117,7 @@
 
     function addPunktToList(){
 
-        if(!checkInputNotEmpty(punktInput) || punktIndex == 10) return;
+        if(!checkInputNotEmpty(punktInput) || punktIndex == 18) return;
 
         punktIndex += 1;
 
@@ -221,7 +221,30 @@
     const convertBtn = document.querySelector('.saveBtn')
     const preview = document.querySelector('#preview');
 
-    function saveImg(c){
+    function PrintElem(elem)
+    {
+        var prtContent = document.querySelector(elem);
+        var WinPrint = window.open('', '', 'left=0,top=0,width=384,height=900,toolbar=0,scrollbars=0,status=0');
+        WinPrint.document.write('<html><head>');
+        WinPrint.document.write('<link rel="stylesheet" href="styles.css">');
+        WinPrint.document.write('</head><body onload="print();close();">');
+        WinPrint.document.write(prtContent.innerHTML);
+        WinPrint.document.write('</body></html>');
+        WinPrint.document.close();
+        WinPrint.focus();
+    }
+
+    let pr = document.querySelector('#cpimg')
+    let out = document.querySelector('.out');
+    let outName = document.querySelector('.outName');
+    let outDesc = document.querySelector('.outDesc');
+    
+    let divInfo = document.querySelector('.divInfo');
+    let info = document.querySelector('.info');
+    let author = document.querySelector('.author');
+
+    function saveImg(c, punkts){
+        let pr = document.querySelector('#cpimg')
         let canvasUrl = c.toDataURL();
         const createEl = document.createElement('a');
         createEl.href = canvasUrl;
@@ -233,17 +256,65 @@
         createEl.download = `Чеклист-${fileName}`;
         createEl.click();
         createEl.remove();
+
+        pr.classList.remove('saveWinSize')
+        out.classList.remove('outPrint')
+        outName.classList.remove('outNamePrint')
+        outDesc.classList.remove('outDescPrint')
+        
+        divInfo.classList.remove('divInfoPrint')
+        info.classList.remove('infoPrint')
+        author.classList.remove('authorPrint')
+
+        for (let i = 0; i < punkts.length; i++) {
+            const p = punkts[i];
+            
+            let pOutNum = p.querySelector('.pOutNum');
+            let pOutName = p.querySelector('.pOutName');
+            let checkbox = p.querySelector('.checkbox');
+
+            pOutNum.classList.remove('pOutNumPrint')
+            pOutName.classList.remove('pOutNamePrint')
+            checkbox.classList.remove('checkboxPrint')
+
+        }
+
+        // pr.classList.remove('saveWinSize')
         c.remove();
     }
 
     convertBtn.addEventListener("click", (e) => {
+        let punktsOut = document.querySelectorAll('.outPunkt');
+
+        pr.classList.add('saveWinSize')
+        outName.classList.add('outNamePrint')
+        outDesc.classList.add('outDescPrint')
+        
+        divInfo.classList.add('divInfoPrint')
+        info.classList.add('infoPrint')
+        author.classList.add('authorPrint')
+        out.classList.add('outPrint')
+
+        for (let i = 0; i < punktsOut.length; i++) {
+            const p = punktsOut[i];
+            
+            let pOutNum = p.querySelector('.pOutNum');
+            let pOutName = p.querySelector('.pOutName');
+            let checkbox = p.querySelector('.checkbox');
+
+            pOutNum.classList.add('pOutNumPrint')
+            pOutName.classList.add('pOutNamePrint')
+            checkbox.classList.add('checkboxPrint')
+
+        }
+
         e.preventDefault();
         html2canvas(document.querySelector("#cpimg")).then((canvas) => {
             canvas.setAttribute('id', 'canv');
             preview.appendChild(canvas);
-            saveImg(canvas);
+            saveImg(canvas, punktsOut);
         });
-
+        // PrintElem('#cpimg');
         
   });
 
