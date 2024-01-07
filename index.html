@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    
+    <div class="display">
+        <div id="preview"></div>
+        <H1 class="mH">Создание чеклиста</H1>
+        <H2>Название чеклиста </H2>
+        <div class="inpDivN">
+            <input type="text" class="checkListName", maxlength="38">
+        </div>
+        <H2>Описание чеклиста</H2>
+        <div class="inpDivN">
+            <input type="text" class="checkListDesc", maxlength="42">
+        </div>
+        <H2>Автор чеклиста</H2>
+        <div class="inpDivN">
+            <input type="text" class="checkListAuthor", maxlength="30">
+        </div>
+        
+        <H2>Пункт</H2>
+        <div class="inpDiv">
+            <input type="text" class="pInput" placeholder="Введите пункт чеклиста", maxlength="35">
+            <button class="addPunkt">Добавить</button>
+        </div>
+        <div class="checkList">
+            <!-- <div class="punkt">
+                <h3 class="pNum">1.</h3> 
+                <h3 class="pName">Lorem</h3>
+                <button class="delete">delete</button>
+            </div> -->
+        </div>
+        <div class="outDisplay", id="cpimg">
+            <div class="out">
+                <h1 class="outName"></h1>
+                <h2 class="outDesc"></h2>
+                <div class="outCheckList">
+                    <!-- <div class="outPunkt">
+                        <h3 class="pOutNum">1. </h3> 
+                        <h3 class="pOutName">Новый пункт</h3>
+                        <div class="checkbox"></div>
+                    </div> -->
+                </div>
+                <div class="divInfo">
+                    <h2 class="info">СПИСОК СОСТАВЛЕН:</h2>
+                    <h2 class="author"></h2>
+                </div>
+            </div>
+        </div>
+        <button class="saveBtn">Сохранить Чеклист</button>
+    </div>
+</body>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script>
+    let punktIndex = 0;
+
+    const checkListNameInp = document.querySelector('.checkListName');
+    const checkListDescInp = document.querySelector('.checkListDesc');
+    const checkListAuthor = document.querySelector('.checkListAuthor');
+
+    const checkListOutAuthor = document.querySelector('.author');
+    
+    const outCheckListName = document.querySelector('.outName');
+    const outCheckListDesc = document.querySelector('.outDesc');
+
+    let punktInput = document.querySelector('.pInput');
+    const punktBtn = document.querySelector('.addPunkt');
+    const checkList = document.querySelector('.checkList');
+    const checkListOut = document.querySelector('.outCheckList');
+
+    function deletePunkt(btnId){
+        let punkt = document.querySelector(`#${btnId}`);
+        let punktOut = document.querySelector(`#O${btnId}`);
+        punkt.remove();
+        punktOut.remove();
+
+        let punkts = document.querySelectorAll('.punkt');
+        let punktsOut = document.querySelectorAll('.outPunkt');
+
+        for (let i = 0; i < punkts.length; i++) {
+            let p = punkts[i];
+            let num = p.querySelector('.pNum');
+            num.innerHTML = `${i+1}.`;
+            punktIndex = i;
+        }
+        if(punkts.length == 0){
+            punktIndex = 0;
+        }
+
+        for (let i = 0; i < punktsOut.length; i++) {
+            let p = punktsOut[i];
+            let num = p.querySelector('.pOutNum');
+            num.innerHTML = `${i+1}.`;
+            punktIndex = i;
+        }
+        if(punktOut.length == 0){
+            punktIndex = 0;
+        }
+    }
+
+    function checkInputNotEmpty(input){
+        for (let i = 0; i < input.value.length; i++) {
+            const symbol = input.value[i];
+            
+            // console.log(symbol);
+
+            if(symbol != ' ') return true; 
+        }
+        return false;
+    }
+
+    function addPunktToList(){
+
+        if(!checkInputNotEmpty(punktInput) || punktIndex == 10) return;
+
+        punktIndex += 1;
+
+        let punktDiv = document.createElement('div');
+        punktDiv.classList.add('punkt');
+        punktDiv.setAttribute('id', `p${punktIndex}`);
+
+        let punktDivOut = document.createElement('div');
+        punktDivOut.classList.add('outPunkt');
+        punktDivOut.setAttribute('id', `Op${punktIndex}`);
+
+        let punktNum = document.createElement('h3');
+        punktNum.innerHTML = `${punktIndex}.`
+        punktNum.classList.add('pNum')
+
+        let punktNumOut = document.createElement('h3');
+        punktNumOut.innerHTML = `${punktIndex}. `
+        punktNumOut.classList.add('pOutNum')
+        
+        let punktName = document.createElement('input');
+        punktName.setAttribute('type', 'text')
+        
+        punktName.classList.add('pName');
+        punktName.value = punktInput.value;
+        punktName.setAttribute('maxlength', 35);
+
+        punktName.setAttribute('id', `p${punktIndex}`)
+
+        punktName.addEventListener('input', (e) => {
+            let pName = e.target;
+            let id = pName.getAttribute('id');
+            let outId = `#O${id}`;
+            let pOutName = document.querySelector(outId).querySelector('.pOutName');
+            pOutName.innerHTML = pName.value;
+        })
+
+        let punktNameOut = document.createElement('h3');
+        punktNameOut.classList.add('pOutName');
+        punktNameOut.innerHTML = punktInput.value;
+        punktNameOut.setAttribute('id', `Op${punktIndex}`)
+        
+
+        let deleteBtn = document.createElement('button');
+        deleteBtn.classList.add('delete');
+        deleteBtn.innerHTML = 'удалить';
+
+        let checkbox = document.createElement('div');
+        checkbox.classList.add('checkbox');
+
+        deleteBtn.setAttribute('id', `p${punktIndex}`);
+
+        let btnId = deleteBtn.getAttribute('id');
+
+        deleteBtn.addEventListener('click', () => {
+            deletePunkt(btnId);
+        });
+
+        punktDiv.appendChild(punktNum);
+        punktDiv.appendChild(punktName);
+        punktDiv.appendChild(deleteBtn);
+        checkList.appendChild(punktDiv);
+
+        punktDivOut.appendChild(punktNumOut);
+        punktDivOut.appendChild(punktNameOut);
+        punktDivOut.appendChild(checkbox);
+        checkListOut.appendChild(punktDivOut);
+
+        punktInput.value = '';
+    }
+
+    punktInput.addEventListener('keydown', (e) => {
+        if(e.keyCode == 13){
+            addPunktToList();
+        }
+    })
+
+    punktBtn.addEventListener("click", () => {
+        addPunktToList();
+    })
+
+    checkListNameInp.addEventListener('input', (e) => {
+        let val = e.target.value;
+        outCheckListName.innerHTML = val;
+    })
+
+    checkListDescInp.addEventListener('input', (e) => {
+        let val = e.target.value;
+        outCheckListDesc.innerHTML = val;
+    })
+
+    checkListAuthor.addEventListener('input', (e) => {
+        let val = e.target.value;
+        checkListOutAuthor.innerHTML = `${val}`;
+    })
+
+    // checkListDescInp.addEventListener('input', (e) => {
+    //     let val = e.target.value;
+    //     outCheckListDesc.innerHTML = val;
+    // })
+
+    const convertBtn = document.querySelector('.saveBtn')
+    const preview = document.querySelector('#preview');
+
+    function saveImg(c){
+        let canvasUrl = c.toDataURL();
+        const createEl = document.createElement('a');
+        createEl.href = canvasUrl;
+        let checkListName = checkListNameInp.value;
+        let fileName = 'безымяный'
+        if(checkInputNotEmpty(checkListNameInp)){
+            fileName = checkListName;
+        }
+        createEl.download = `Чеклист-${fileName}`;
+        createEl.click();
+        createEl.remove();
+        c.remove();
+    }
+
+    convertBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        html2canvas(document.querySelector("#cpimg")).then((canvas) => {
+            canvas.setAttribute('id', 'canv');
+            preview.appendChild(canvas);
+            saveImg(canvas);
+        });
+
+        
+  });
+
+</script>
+
+
+</html>
