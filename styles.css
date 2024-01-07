@@ -52,6 +52,16 @@ h3{
     padding-bottom: 0px;
 }
 
+.pOutNumPrint{
+    width: 72px;
+    font-weight:350;
+    padding-right: 0px;
+    font-size: 48px;
+    margin-right: 0px;
+    padding-top: 8px;
+    padding-bottom: 0px;
+}
+
 .pName{
     font-size: 22px;
     padding: 0;
@@ -75,12 +85,33 @@ h3{
     word-wrap: break-word;
 }
 
+.pOutNamePrint{
+    font-size: 48px;
+    padding: 0;
+    margin: 0;
+    padding-top: 8px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    font-weight:450;
+    border-width: 0; 
+    width: 940px;
+    word-wrap: break-word;
+}
+
 .out{
     display: flex;
     flex-direction: column;
     height: 100%;
     padding-left: 27px;
     padding-right: 27px;
+    word-wrap: break-word;
+}
+.outPrint{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding-left: 108px;
+    padding-right: 108px;
     word-wrap: break-word;
 }
 
@@ -92,12 +123,28 @@ h3{
     line-height: 25px;
 }
 
+.outNamePrint{
+    font-size: 116px;
+    margin: 0;
+    padding: 0;
+    padding-top: 80px;
+    line-height: 100px;
+}
+
 .outDesc{
     font-size: 15px;
     font-weight: 400;
     line-height: 15px;
     padding-top: 15px;
     padding-bottom: 15px;
+}
+
+.outDescPrint{
+    font-size: 60px;
+    font-weight: 400;
+    line-height: 60px;
+    padding-top: 60px;
+    padding-bottom: 60px; 
 }
 
 
@@ -162,6 +209,22 @@ button:active{
     
     width: 8px;
     height: 8px;
+    
+}
+
+.checkboxPrint{
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    
+    border-style: solid;
+    border-width: 4px;
+    border-color: black;
+    margin-left: auto;
+    
+    width: 32px;
+    height: 32px;
     
 }
 
@@ -244,12 +307,41 @@ button:active{
     word-wrap: break-word;
 }
 
+.divInfoPrint{
+    
+    display: flex;
+    width: auto;
+    height: auto;
+    margin-top: auto;
+    margin-bottom: 60px;
+    margin-left: auto;
+    align-items: flex-end;
+    justify-content: flex-end;
+    word-wrap: break-word;
+}
+
 .info{
     font-size: 8px;
+    font-weight: 300;
+}
+
+.infoPrint{
+    font-size: 32px;
     font-weight: 300;
 }
 .author{
     font-size: 10px;
     font-weight: 400;
     margin-left: 5px;
+}
+.authorPrint{
+    font-size: 40px;
+    font-weight: 400;
+    margin-left: 20px;
+}
+
+
+.saveWinSize{
+    height: 1800px;
+    width: 1200px;
 }
